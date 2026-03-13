@@ -1,0 +1,13 @@
+# Dev
+dev.zed.Zed
+
+# Browser
+app.zen_browser.zen
+
+# Utilities
+com.bitwarden.desktop
+com.github.tchx84.Flatseal
+com.mattjakeman.ExtensionManager
+
+# Social
+com.discordapp.Discord

@@ -1,0 +1,6 @@
+# GNOME Shell Extensions
+# Install from https://extensions.gnome.org or via Extension Manager
+forge@jmmaranan.com
+just-perfection-desktop@just-perfection
+AlphabeticalAppGrid@stuarthayhurst
+blur-my-shell@aunetx

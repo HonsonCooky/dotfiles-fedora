@@ -1,0 +1,42 @@
+{
+  "agent_servers": {
+    "claude": {
+      "default_config_options": {
+        "model": "opus",
+      },
+    },
+  },
+  "lsp": {
+    "luau-lsp": {
+      "settings": {
+        "luau-lsp": {
+          "platform": {
+            "type": "roblox",
+          },
+          "sourcemap": {
+            "enabled": false,
+          },
+          "types": {
+            "roblox": true,
+            "robloxSecurity": "roblox_script",
+          },
+          "roblox": {
+            "enabled": true,
+            "security_level": "roblox_script",
+          },
+          "completion": {
+            "imports": {
+              "enabled": true,
+            },
+          },
+        },
+      },
+    },
+  },
+  "preferred_line_length": 120,
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Light",
+    "dark": "Ayu Dark",
+  },
+}

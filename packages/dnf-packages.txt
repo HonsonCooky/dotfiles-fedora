@@ -1,0 +1,15 @@
+# Core dev tools
+gcc
+make
+cmake
+golang
+nodejs
+npm
+postgresql
+docker-ce
+docker-compose-plugin
+git
+gnome-tweaks
+
+# Terraform
+terraform
