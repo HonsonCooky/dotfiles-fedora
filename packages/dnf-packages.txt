@@ -17,4 +17,5 @@ terraform
 
 # System
 git
+gnome-characters
 gnome-tweaks

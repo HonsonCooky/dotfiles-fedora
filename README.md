@@ -1,6 +1,8 @@
 # dotfiles-fedora
 
-Clone, run the script, get back to work.
+Personal workstation config for Fedora (GNOME/Wayland). Clone it, run the
+installer, and get back to work. See [Principles](PRINCIPLES.md) for the
+philosophy behind this repo.
 
 ```bash
 git clone git@github.com:HonsonCooky/dotfiles-fedora.git ~/Source/dotfiles
@@ -8,21 +10,55 @@ cd ~/Source/dotfiles
 ./install.sh
 ```
 
-## Philosophy
+## What's in here
 
-Take care of the pennies and the dollars take care of themselves. Every concept
-in computing reduces to something simple: learn the real thing, not the name
-someone gave the wrapper, and the abstractions handle themselves. Understand the
-fundamentals, keep the tooling out of the way, and the outcomes follow.
+| Directory    | What it does                                                    |
+| ------------ | --------------------------------------------------------------- |
+| `bash/`      | bashrc.d snippets (custom PS1 with git branch, exit-code color) |
+| `git/`       | Global `.gitconfig` (user, auto push remote setup)              |
+| `zed/`       | Zed editor settings (Ayu theme, Luau/Roblox LSP)               |
+| `gnome/`     | dconf dump, GNOME extension list, Ptyxis terminal config        |
+| `packages/`  | DNF packages and Flatpak app lists                              |
+| `install.sh` | Ties it all together (symlinks, dconf load, optional installs)  |
 
-No amount of tooling or abstraction removes the need to understand what is
-happening underneath. Computing has a floor: a bare minimum of knowledge that
-the work actually demands. No framework, plugin, or config repo is a substitute
-for reaching it. This repo assumes you have, or intend to.
+## What the installer does
 
-## Principles
+1. **Symlinks** bash, git, and zed configs into the expected locations
+   (backs up any existing files to `*.bak`).
+2. **Loads dconf settings** -- keyboard tweaks (Caps/Esc swap), dark mode,
+   hidden top panel, and more.
+3. **Sets the Ptyxis terminal palette** to Ayu on the default profile.
+4. **Lists GNOME extensions** to install manually (Just Perfection,
+   Blur My Shell, Alphabetical App Grid).
+5. **Optionally installs packages** -- DNF (gcc, go, node, podman, terraform)
+   and Flatpaks (Zed, Zen Browser, Bitwarden, Discord, etc.) with a y/N prompt
+   for each group.
 
-- If a default works, do not override it.
-- If a tool's config becomes the tool, it is the wrong tool.
-- If a config entry is not doing something specific, remove it.
-- Every file here should be short enough to read in one sitting.
+## Keyboard shortcuts
+
+App focus via dash favorites (Super+N also cycles windows of that app):
+
+| Shortcut      | Action              |
+| ------------- | ------------------- |
+| `Super+J`     | Discord             |
+| `Super+K`     | Zen Browser         |
+| `Super+L`     | Zed                 |
+| `Super+;`     | Ptyxis              |
+
+Workspace switching (4 static workspaces):
+
+| Shortcut        | Action              |
+| --------------- | ------------------- |
+| `Super+Alt+J`   | Workspace 1         |
+| `Super+Alt+K`   | Workspace 2         |
+| `Super+Alt+L`   | Workspace 3         |
+| `Super+Alt+;`   | Workspace 4         |
+
+Other remaps: lock screen moved to `Super+Escape`, Caps Lock swapped with Escape.
+
+## Key choices
+
+- **Podman** over Docker (Fedora default, rootless, no daemon).
+- **Zed** (Flatpak) as the primary editor.
+- **Ayu** theme everywhere it applies (Zed, Ptyxis).
+- **4 static workspaces** with vim-style navigation.

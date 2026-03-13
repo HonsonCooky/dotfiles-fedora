@@ -1,5 +1,15 @@
 {
   // Splitting Point - Roblox Luau LSP (work-specific)
+  "agent_servers": {
+    "claude-acp": {
+      "favorite_config_option_values": {
+        "model": [
+          "opus"
+        ]
+      },
+      "type": "registry"
+    }
+  },
   "lsp": {
     "luau-lsp": {
       "settings": {
