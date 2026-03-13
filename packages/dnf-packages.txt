@@ -1,15 +1,22 @@
-# Core dev tools
+# C/C++
 gcc
 make
 cmake
+
+# Go
 golang
+
+# Node (for tooling)
 nodejs
 npm
-postgresql
+
+# Infra
 docker-ce
+docker-ce-cli
+containerd.io
 docker-compose-plugin
+terraform
+
+# System
 git
 gnome-tweaks
-
-# Terraform
-terraform

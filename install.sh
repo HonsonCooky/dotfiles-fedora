@@ -31,6 +31,7 @@ echo "[bash]"
 link_file "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
 link_file "$DOTFILES_DIR/bash/.bash_profile" "$HOME/.bash_profile"
 link_file "$DOTFILES_DIR/bash/.bash_logout" "$HOME/.bash_logout"
+link_file "$DOTFILES_DIR/bash/bashrc.d" "$HOME/.bashrc.d"
 
 # --------------------------------------------------------------------------- #
 # Git
@@ -65,6 +66,14 @@ echo ""
 echo "[gnome] Loading dconf settings..."
 if command -v dconf &>/dev/null; then
     dconf load / < "$DOTFILES_DIR/gnome/dconf-settings.ini"
+
+    # Ptyxis palette: apply to whatever the current default profile is
+    PTYXIS_UUID=$(dconf read /org/gnome/Ptyxis/default-profile-uuid 2>/dev/null | tr -d "'")
+    if [ -n "$PTYXIS_UUID" ]; then
+        dconf write "/org/gnome/Ptyxis/Profiles/${PTYXIS_UUID}/palette" "'Ayu'"
+        echo "  Ptyxis Ayu palette applied to profile $PTYXIS_UUID"
+    fi
+
     echo "  dconf settings loaded."
 else
     echo "  WARNING: dconf not found, skipping GNOME settings."
@@ -80,13 +89,30 @@ grep -v '^#' "$DOTFILES_DIR/gnome/extensions.txt" | grep -v '^$' | while read -r
 done
 
 # --------------------------------------------------------------------------- #
+# Docker repo (required before dnf install)
+# --------------------------------------------------------------------------- #
+setup_docker_repo() {
+    if [ ! -f /etc/yum.repos.d/docker-ce.repo ]; then
+        echo "[docker] Adding Docker CE repository..."
+        sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+    else
+        echo "[docker] Docker CE repository already configured."
+    fi
+}
+
+# --------------------------------------------------------------------------- #
 # DNF packages
 # --------------------------------------------------------------------------- #
 echo ""
 read -rp "Install DNF packages? [y/N] " yn
 if [[ "$yn" =~ ^[Yy]$ ]]; then
+    setup_docker_repo
     echo "[packages] Installing DNF packages..."
     grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$' | xargs sudo dnf install -y
+    echo "[docker] Enabling Docker service..."
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker "$USER"
+    echo "  NOTE: Log out and back in for Docker group membership to take effect."
 fi
 
 # --------------------------------------------------------------------------- #
@@ -103,4 +129,4 @@ fi
 
 echo ""
 echo "=== Done! ==="
-echo "NOTE: You may need to log out and back in for all GNOME changes to take effect."
+echo "NOTE: You may need to log out and back in for all changes to take effect."

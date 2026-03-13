@@ -6,6 +6,7 @@
       },
     },
   },
+  // Splitting Point - Roblox Luau LSP (work-specific)
   "lsp": {
     "luau-lsp": {
       "settings": {
