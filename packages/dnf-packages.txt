@@ -11,10 +11,8 @@ nodejs
 npm
 
 # Infra
-docker-ce
-docker-ce-cli
-containerd.io
-docker-compose-plugin
+podman
+podman-compose
 terraform
 
 # System

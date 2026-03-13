@@ -10,16 +10,15 @@ cd ~/Source/dotfiles
 
 ## Philosophy
 
-Take care of the pennies and the dollars take care of themselves.
+Take care of the pennies and the dollars take care of themselves. Every concept
+in computing reduces to something simple: learn the real thing, not the name
+someone gave the wrapper, and the abstractions handle themselves. Understand the
+fundamentals, keep the tooling out of the way, and the outcomes follow.
 
-Ideas are the fundamentals of computing -- combining them is what solves
-problems, not the language or the typing speed. Every concept reduces to
-something simple. One core switching between tasks, or multiple cores running at
-the same time -- everything else is vocabulary. Learn the real thing, not the
-name someone gave the wrapper, and the abstractions handle themselves.
-
-This repo follows from that. Understand the fundamentals, keep the tooling out
-of the way, and the outcomes follow.
+No amount of tooling or abstraction removes the need to understand what is
+happening underneath. Computing has a floor: a bare minimum of knowledge that
+the work actually demands. No framework, plugin, or config repo is a substitute
+for reaching it. This repo assumes you have, or intend to.
 
 ## Principles
 

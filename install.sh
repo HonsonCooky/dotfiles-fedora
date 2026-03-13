@@ -75,48 +75,13 @@ grep -v '^#' "$DOTFILES_DIR/gnome/extensions.txt" | grep -v '^$' | while read -r
 done
 
 # --------------------------------------------------------------------------- #
-# Docker repo (required before dnf install)
-# --------------------------------------------------------------------------- #
-setup_docker_repo() {
-    if [ ! -f /etc/yum.repos.d/docker-ce.repo ]; then
-        echo "[docker] Adding Docker CE repository..."
-        sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
-    else
-        echo "[docker] Docker CE repository already configured."
-    fi
-}
-
-# --------------------------------------------------------------------------- #
-# Remove unwanted default packages
-# --------------------------------------------------------------------------- #
-echo ""
-read -rp "Remove unwanted default packages? [y/N] " yn
-if [[ "$yn" =~ ^[Yy]$ ]]; then
-    echo "[packages] Removing unwanted default packages (skipping any not installed)..."
-    installed=()
-    while read -r pkg; do
-        rpm -q "$pkg" &>/dev/null && installed+=("$pkg")
-    done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-remove.txt" | grep -v '^$')
-    if [ ${#installed[@]} -gt 0 ]; then
-        sudo dnf remove -y "${installed[@]}"
-    else
-        echo "  Nothing to remove."
-    fi
-fi
-
-# --------------------------------------------------------------------------- #
 # DNF packages
 # --------------------------------------------------------------------------- #
 echo ""
 read -rp "Install DNF packages? [y/N] " yn
 if [[ "$yn" =~ ^[Yy]$ ]]; then
-    setup_docker_repo
     echo "[packages] Installing DNF packages..."
     grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$' | xargs sudo dnf install -y
-    echo "[docker] Enabling Docker service..."
-    sudo systemctl enable --now docker
-    sudo usermod -aG docker "$USER"
-    echo "  NOTE: Log out and back in for Docker group membership to take effect."
 fi
 
 # --------------------------------------------------------------------------- #
