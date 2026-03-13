@@ -28,9 +28,6 @@ link_file() {
 # --------------------------------------------------------------------------- #
 echo ""
 echo "[bash]"
-link_file "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
-link_file "$DOTFILES_DIR/bash/.bash_profile" "$HOME/.bash_profile"
-link_file "$DOTFILES_DIR/bash/.bash_logout" "$HOME/.bash_logout"
 link_file "$DOTFILES_DIR/bash/bashrc.d" "$HOME/.bashrc.d"
 
 # --------------------------------------------------------------------------- #
@@ -39,17 +36,6 @@ link_file "$DOTFILES_DIR/bash/bashrc.d" "$HOME/.bashrc.d"
 echo ""
 echo "[git]"
 link_file "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
-mkdir -p "$HOME/.config/git"
-link_file "$DOTFILES_DIR/git/.config/git/ignore" "$HOME/.config/git/ignore"
-
-# --------------------------------------------------------------------------- #
-# Claude Code
-# --------------------------------------------------------------------------- #
-echo ""
-echo "[claude]"
-mkdir -p "$HOME/.claude"
-link_file "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-link_file "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
 
 # --------------------------------------------------------------------------- #
 # Zed (Flatpak)
@@ -99,6 +85,24 @@ setup_docker_repo() {
         echo "[docker] Docker CE repository already configured."
     fi
 }
+
+# --------------------------------------------------------------------------- #
+# Remove unwanted default packages
+# --------------------------------------------------------------------------- #
+echo ""
+read -rp "Remove unwanted default packages? [y/N] " yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
+    echo "[packages] Removing unwanted default packages (skipping any not installed)..."
+    installed=()
+    while read -r pkg; do
+        rpm -q "$pkg" &>/dev/null && installed+=("$pkg")
+    done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-remove.txt" | grep -v '^$')
+    if [ ${#installed[@]} -gt 0 ]; then
+        sudo dnf remove -y "${installed[@]}"
+    else
+        echo "  Nothing to remove."
+    fi
+fi
 
 # --------------------------------------------------------------------------- #
 # DNF packages

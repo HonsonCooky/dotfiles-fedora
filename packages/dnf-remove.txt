@@ -1,0 +1,13 @@
+# Browser (Zen replaces this via Flatpak)
+firefox
+
+# Office (not needed on a dev workstation)
+libreoffice-calc
+libreoffice-impress
+libreoffice-writer
+
+# Utilities
+gnome-maps
+gnome-abrt
+yelp
+mediawriter

@@ -1,11 +1,4 @@
 {
-  "agent_servers": {
-    "claude": {
-      "default_config_options": {
-        "model": "opus",
-      },
-    },
-  },
   // Splitting Point - Roblox Luau LSP (work-specific)
   "lsp": {
     "luau-lsp": {
