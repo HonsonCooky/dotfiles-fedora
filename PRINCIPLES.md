@@ -10,6 +10,8 @@ underneath.
 
 Thus: take care of the ideas, and the implementations take care of themselves.
 
+The examples here are drawn from software engineering, but the ideas are not.
+
 
 ## I. The Problem
 
@@ -22,24 +24,16 @@ another location. Contiguous allocation is an idea; elements stored adjacently
 so the hardware can access them efficiently. These are not opinions or
 conventions. They are just how the thing works.
 
-The names we give collections of these ideas are just labels; useful for communication, but not for
-understanding. The ideas underneath are smaller, more stable, and more
-transferable than the labels built on top of them.
+The names we give collections of these ideas are just labels; useful for
+communication, but not for understanding. Most complexity in this industry comes
+from learning the label and skipping the ideas it contains. When that happens,
+you can operate the tool, but you cannot reason about it. You end up defending
+practices you cannot trace back to a real problem, following rules you cannot
+explain, and arguing over vocabulary that only has ambiguity because everyone is
+reasoning at the wrong layer.
 
-Most complexity in this industry comes from learning the label and skipping the
-ideas it contains. When that happens, you can operate the tool, but you cannot
-reason about it. You end up defending practices you cannot trace back to a real
-problem, following rules you cannot explain, and arguing over vocabulary that
-only has ambiguity because everyone is reasoning at the wrong layer. When people
-cannot agree on what something means, that is usually a signal; they are
-probably looking at an abstraction instead of the collection of ideas it
-represents.
-
-In my experience, this plays out often. Practices get adopted because someone
-said to, not because anyone understood the problem being solved. The arguments
-for keeping them are rarely mechanical; they are appeals to convention,
-seniority, or some hypothetical future developer who will be confused. Scratch
-the surface and there is nothing structural holding the position together.
+When people cannot agree on what something means, that is a signal. They are
+looking at an abstraction instead of the collection of ideas it represents.
 
 
 ## II. Manual and Automatic
@@ -57,21 +51,20 @@ engine load actually means. The tool made participation possible by removing
 the requirement to understand the machine underneath. That is a trade-off, not
 a free upgrade.
 
-What happens next is the interesting part. The manual driver, carrying that
-mechanical understanding, does not need many rules. The rules are just logical
-consequences of ideas they already hold. The automatic driver, freed from that
-weight, fills the space with rules instead: brake before a hill, never exceed a
-certain speed in a turn. These rules work fine, right up until the context
-changes. And then they have nothing to fall back on.
+The manual driver, carrying that mechanical understanding, does not need many
+rules. The rules are just logical consequences of ideas they already hold. The
+automatic driver, freed from that weight, fills the space with rules instead:
+brake before a hill, never exceed a certain speed in a turn. These rules work
+fine, right up until the context changes. And then they have nothing to fall
+back on.
 
-This maps pretty directly to software. The distinction between software
-engineering and computer science, as I experienced it, is not prestige or
-difficulty. It is whether the education trained you to decompose problems into
-their underlying ideas, or to apply known solutions to recognized patterns. A
-software engineering curriculum spends four years forcing you to reason from
-fundamentals against problems you have never seen before. By the third year, you
-are not memorizing. You are deriving. The degree is not the point. The rewiring
-is.
+This maps directly to software. The distinction between software engineering and
+computer science, as I experienced it, is not prestige or difficulty. It is
+whether the education trained you to decompose problems into their underlying
+ideas, or to apply known solutions to recognized patterns. A software
+engineering curriculum spends four years forcing you to reason from fundamentals
+against problems you have never seen before. By the third year, you are not
+memorizing. You are deriving. The degree is not the point. The rewiring is.
 
 
 ## III. Honesty
@@ -82,30 +75,21 @@ invested real time and effort into and admit that it is not working, that the
 framework you were given does not hold up, that the authority you trusted was
 just wrong.
 
-This is not a comfortable process. It requires you to accept that starting over
-from the foundation is sometimes the only path forward, and that the cost of
-doing so is lower than the cost of continuing to build on something unsound. In
-engineering terms, you do not patch a structure with a flawed foundation. You
-go back to the foundation.
+You do not patch a structure with a flawed foundation. You go back to the
+foundation. That is uncomfortable. It means accepting that starting over is
+sometimes the only path forward, and that the cost of doing so is lower than
+continuing to build on something unsound.
 
-This extends well beyond code, too. I followed conventional nutritional advice
-for years; the food pyramid, caloric deficit models, the standard framework. It
-did not work. When I stopped following the rules and started learning the actual
-ideas, the picture changed. Insulin response, chronic inflammation, how the body
-actually processes specific inputs in a sedentary context. The answer was a
-smaller set of ideas than the framework had led me to believe, and it worked.
-Now, nutritional science is notoriously difficult to study reliably, and nobody
-should take my word over their own research. But applying this same approach,
-stripping back to the underlying ideas and reasoning from there, has had a
-consistent track record with the people around me when applied to specific
-health outcomes. The point is not the diet. The point is that the same
-philosophy that simplifies software also simplified a problem I had been failing
-to solve for years by following inherited rules.
-
-In each case, the answer tends to be a smaller collection of ideas than the
-framework that was handed to you. But finding it requires the discipline to
-question the framework in the first place, and the honesty to act on what you
-find.
+This extends well beyond code. I followed conventional nutritional advice for
+years; the food pyramid, caloric deficit models, the standard framework. It did
+not work. When I stopped following the rules and started learning the actual
+ideas, insulin response, chronic inflammation, how the body processes specific
+inputs in a sedentary context, the answer was simpler than the framework. And it
+worked. Nutritional science is notoriously difficult to study reliably, and
+nobody should take my word over their own research. But applying this approach,
+stripping back to underlying ideas and reasoning from there, has had a
+consistent track record with the people around me. The point is not the diet.
+The point is that inherited rules failed where first principles succeeded.
 
 
 ## IV. Examples
@@ -115,9 +99,9 @@ software.
 
 ### Linked Lists
 
-A common sentiment is that linked lists are a useless data structure. Most
-people who say this were taught to memorize them as "a list where each node
-points to the next," compared them unfavorably to arrays, and moved on.
+A common sentiment is that linked lists are useless. Most people who say this
+were taught to memorize them as "a list where each node points to the next,"
+compared them unfavorably to arrays, and moved on.
 
 The idea underneath is different. An array requires contiguous allocation; every
 element sits adjacent in a single block of memory, which means the sequence has
@@ -125,9 +109,7 @@ a bounding limit within that block. A linked list removes that constraint. Each
 element stores a reference to the next, and that reference does not have to
 point to an adjacent address, or even to the same machine. As long as the
 reference resolver can follow it, the storage is unbounded. The idea is not "a
-list with pointers." The idea is infinite memory for a sequence. That is not
-useless; that is a fundamentally different capability that the label never
-communicated.
+list with pointers." The idea is infinite memory for a sequence.
 
 ### Header Files
 
@@ -135,14 +117,14 @@ Ask a newer developer what header files (.h) are for, and the answer is usually
 "where you put your declarations." That is the convention, but it is not the
 idea.
 
-The idea is that early compilers could not hold an entire program in memory
-during compilation. Source files (.c) had to be compiled independently into
-object files (.o); machine code with unresolved references to symbols defined
-elsewhere. The compiler needed a way to verify that those references were valid
-without seeing the full implementation. Header files solved that problem by
-declaring symbols (function signatures, type definitions, external variables) so
-each source file could be checked in isolation. A linker then resolved the
-references across object files into a final binary.
+Early compilers could not hold an entire program in memory during compilation.
+Source files (.c) had to be compiled independently into object files (.o);
+machine code with unresolved references to symbols defined elsewhere. The
+compiler needed a way to verify those references without seeing the full
+implementation. Header files solved that by declaring symbols (function
+signatures, type definitions, external variables) so each source file could be
+checked in isolation. A linker then resolved the references across object files
+into a final binary.
 
 This same idea extends to type annotations. Explicit return types in C were not
 added for the programmer's benefit; the compiler needed them to generate correct
@@ -153,45 +135,38 @@ return type, but the compiler did not skip the information; it defaulted to int.
 Get it wrong and you read garbage. The "for the human" justification came later,
 after people forgot the original constraint.
 
-The idea, then, is not "declarations go in .h files" or "always annotate your
-return types." The idea is that compilers needed explicit information to
-generate correct code under hardware constraints. Modern languages like Go and
-Rust prove this; their compilers resolve dependencies across source files
-directly, infer return types, and need no headers at all. The hardware outgrew
-the constraint that created the pattern. Once you see that, these conventions
-stop being rules and start being historical artifacts of specific limitations.
+The idea is not "declarations go in .h files" or "always annotate your return
+types." The idea is that compilers needed explicit information to generate
+correct code under hardware constraints. Modern languages like Go and Rust prove
+this; their compilers resolve dependencies across source files directly, infer
+return types, and need no headers at all. The hardware outgrew the constraint.
+The convention remained.
 
 ### Async/Await
 
-The online debate about "concurrency vs parallelism" never seems to reach a
-consensus. People argue endlessly about whether async/await is "really"
-concurrent, whether it uses threads, whether it counts as parallelism. Nobody
-can agree, and the reason is that nobody is talking about the hardware.
+The online debate about "concurrency vs parallelism" never reaches consensus.
+Nobody can agree, and the reason is that nobody is talking about the hardware.
 
 There are two ideas. Multitasking: a single CPU core executes one instruction
 stream at a time, but when a task yields (waiting on I/O, a timer, a network
 response), the core switches to another task rather than sitting idle. The core
 is never doing two things at once; it is just not wasting time waiting.
-Multi-threading: multiple instruction streams executing simultaneously. Two
-things actually happening at the same time. Nothing in this idea specifies
-where those streams execute; they could be on cores in the same chip, or on
-machines on opposite sides of the planet.
+Multi-threading: multiple instruction streams executing simultaneously. Nothing
+in this idea specifies where those streams execute; they could be on cores in
+the same chip, or on machines on opposite sides of the planet.
 
-Once you have those ideas, the semantic arguments dissolve. Take JavaScript,
-commonly described as "single threaded." If that were the whole story, how does
-a browser make network requests while your code continues to run? How does
-Node.js utilize multiple cores with worker threads? How does a fetch call
-resolve while the event loop processes other callbacks? The label "single
-threaded" only describes the runtime's main execution model: one instruction
-stream, yielding between tasks so nothing blocks. That is multitasking. But
-JavaScript does not live in isolation. The browser delegates network I/O to the
-operating system. Node.js spawns actual threads for heavy computation. A request
-to a remote server means two instruction streams executing simultaneously on
-different hardware. That is multi-threading by the definition above.
+Take JavaScript, commonly described as "single threaded." If that were the whole
+story, how does a browser make network requests while your code continues to
+run? How does Node.js utilize multiple cores with worker threads? The label
+"single threaded" only describes the runtime's main execution model: one
+instruction stream, yielding between tasks so nothing blocks. That is
+multitasking. But JavaScript does not live in isolation. The browser delegates
+network I/O to the operating system. Node.js spawns actual threads for heavy
+computation. A request to a remote server means two instruction streams
+executing simultaneously on different hardware. That is multi-threading.
 
 The label "single threaded" is not wrong, but it is incomplete to the point of
-being misleading. It describes one layer of the system and ignores everything
-else. The ideas underneath have no such ambiguity.
+being misleading. The ideas underneath have no such ambiguity.
 
 ### Git
 
@@ -200,45 +175,31 @@ pull to get other people's work, and when a merge conflict appears, it feels
 like something has gone wrong. It has not. They just never learned what Git
 actually is.
 
-Git is version control. It tracks changes as a graph; specifically, a directed
-acyclic graph, meaning it only moves forward and never loops back on itself.
-Each commit is a snapshot of the entire project at a point in time. Each branch
-is just a pointer, a name that refers to a specific commit. When you make a new
-commit, the pointer moves forward. That is all a branch is.
+Git tracks changes as a directed acyclic graph; it only moves forward and never
+loops back on itself. Each commit is a snapshot of the entire project at a point
+in time. Each branch is just a pointer, a name that refers to a specific commit.
+When you make a new commit, the pointer moves forward. That is all a branch is.
+GitHub is a remote host for that graph. These are two separate ideas, and
+conflating them is where the confusion starts.
 
-GitHub is a remote host for that graph. It stores a copy of the same structure
-that exists on your machine. These are two separate ideas, and conflating them
-is where the confusion starts.
+A merge is reconciling two divergent paths in the graph. If two people edited
+different files, Git resolves it automatically. If they edited the same lines,
+it needs a human decision. That is not a bug; it is correct behavior.
 
-A merge is just reconciling two divergent paths in the graph. If two people
-edited different files, Git can stitch the paths back together automatically. If
-they edited the same lines, it cannot; it needs a human decision about which
-version to keep. That is not a bug, it is the expected and correct behavior of
-the system.
+Merge conflicts are not a Git problem; they are a team coordination problem. Two
+people editing the same lines means two people were working on the same thing
+without talking to each other. Git was designed for version control, not for
+sharing code in real time. That is what live development environments and
+collaborative editors solve.
 
-Here is where people misattribute the problem. Merge conflicts are not a Git
-problem; they are a team coordination problem. Two people editing the same lines
-means two people were working on the same thing without talking to each other.
-Resolving that almost always requires pair programming, not a better branching
-strategy. Git was designed for version control, not for sharing code in real
-time. That is what live development environments and collaborative editors
-solve. Blaming Git for merge conflicts is like blaming a filing cabinet for
-people putting documents in the wrong drawer.
-
-But if you only learned "push and pull," you cannot see that distinction. This
-is exactly why companies end up with long internal documents prescribing
-single-branch workflows, mandatory rebase policies, and step-by-step
-instructions for resolving conflicts. It is also why the industry cycles through
-branching strategies; Git Flow, GitHub Flow, trunk-based development, and
-whatever comes next. Each one is an attempt to impose order on a tool that teams
-do not understand, to solve a problem that the tool was never designed to solve.
-If you know what a branch is and what a merge does, the "right" strategy is just
-the logical consequence of your team's deployment needs. You do not need a named
-workflow; you need to understand the graph, and coordinate with your team.
-
-The idea underneath is simple: a forward-moving graph of snapshots, with
-branches as movable pointers. Once you see that, version control stops being a
-source of anxiety and starts being a tool you can reason about.
+This is exactly why companies end up with long internal documents prescribing
+single-branch workflows and step-by-step instructions for resolving conflicts.
+It is why the industry cycles through branching strategies; Git Flow, GitHub
+Flow, trunk-based development, and whatever comes next. Each one is an attempt
+to impose order on a tool that teams do not understand, solving a problem the
+tool was never designed to solve. If you know what a branch is and what a merge
+does, the "right" strategy is just the logical consequence of your team's
+deployment needs.
 
 
 ## V. Conclusion
