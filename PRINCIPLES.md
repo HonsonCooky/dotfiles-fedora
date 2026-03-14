@@ -46,40 +46,32 @@ the surface and there is nothing structural holding the position together.
 
 The best way I have found to explain this is with cars.
 
-Before automatic transmission existed, a driving licence required knowing how to
-drive a manual. The automatic made it possible to get on the road without
-understanding how a gearbox works; forward, backward, stop. More people could
-drive. That is genuinely a net positive.
+Before automatic transmission existed, a driving licence required knowing how
+to drive a manual. Learning to drive and learning how the car operates were the
+same thing. Then the automatic came along and separated them. Forward, backward,
+stop, and you are on the road. The barrier to entry dropped, more people could
+drive, and that is genuinely a net positive. But the definition of "knowing how
+to drive" quietly changed. It no longer included understanding how gears
+translate engine speed into wheel speed, or why clutch timing matters, or what
+engine load actually means. The tool made participation possible by removing
+the requirement to understand the machine underneath. That is a trade-off, not
+a free upgrade.
 
-But tooling lowers the barrier to entry, and lowering the barrier does not fill
-in the knowledge that was skipped. The automatic driver can operate the vehicle;
-they have not absorbed the ideas that the manual driver was forced to learn: how
-gears translate engine speed into wheel speed, why clutch timing matters, what
-engine load actually means. The tool made participation possible without
-requiring that understanding. That is a trade-off, not a free upgrade.
+What happens next is the interesting part. The manual driver, carrying that
+mechanical understanding, does not need many rules. The rules are just logical
+consequences of ideas they already hold. The automatic driver, freed from that
+weight, fills the space with rules instead: brake before a hill, never exceed a
+certain speed in a turn. These rules work fine, right up until the context
+changes. And then they have nothing to fall back on.
 
-The two drivers carry different knowledge. The manual driver understands gear
-ratios, engine load, and clutch engagement. The automatic driver, freed from
-that weight, fills the space with rules: brake before a hill, never exceed a
-certain speed in a turn. These rules work fine, until the context changes, and
-then they have nothing to fall back on. The manual driver does not need those
-rules, because the rules are just logical consequences of the ideas they already
-hold.
-
-This maps pretty directly to the distinction between software engineering and
-computer science as disciplines. The difference is not prestige or difficulty;
-it is whether the education trained you to decompose problems into their
-underlying ideas, or to apply known solutions to recognized patterns. A software
-engineering curriculum, at least the one I went through, spends four years
-forcing you to apply fundamentals to problems you have never seen before. By the
-third year, you are not memorizing; you are reasoning from first principles
-under pressure. The degree is not the point. The rewiring is.
-
-Engineers who learned "manual" carry fewer rules, because the rules are logical
-consequences of ideas they already hold. Engineers who learned "automatic" tend
-to accumulate rules as a substitute for the understanding they skipped. When the
-environment shifts, one group decomposes the new problem from its ideas. The
-other searches for a new set of rules to follow.
+This maps pretty directly to software. The distinction between software
+engineering and computer science, as I experienced it, is not prestige or
+difficulty. It is whether the education trained you to decompose problems into
+their underlying ideas, or to apply known solutions to recognized patterns. A
+software engineering curriculum spends four years forcing you to reason from
+fundamentals against problems you have never seen before. By the third year, you
+are not memorizing. You are deriving. The degree is not the point. The rewiring
+is.
 
 
 ## III. Honesty
@@ -118,41 +110,151 @@ find.
 
 ## IV. Examples
 
-A linked list is a sequence of elements where each element stores a pointer (a
-memory address) to the next. An array requires contiguous allocation; every
-element sits adjacent in memory. A linked list trades that constraint for
-flexibility, at the cost of extra memory per element to store the pointer. A
-queue enforces O(1) insertion and removal; constant time regardless of size.
-Combine these ideas and you get a queue that scales without requiring a single
-unbroken block of memory. The names didn't tell you that; the ideas did.
+To illustrate, here is this philosophy applied to a few common topics in
+software.
 
-Header files (.h) exist because early compilers could not hold an entire program
-in memory during compilation. Source files (.c) were compiled independently into
+### Linked Lists
+
+A common sentiment is that linked lists are a useless data structure. Most
+people who say this were taught to memorize them as "a list where each node
+points to the next," compared them unfavorably to arrays, and moved on.
+
+The idea underneath is different. An array requires contiguous allocation; every
+element sits adjacent in a single block of memory, which means the sequence has
+a bounding limit within that block. A linked list removes that constraint. Each
+element stores a reference to the next, and that reference does not have to
+point to an adjacent address, or even to the same machine. As long as the
+reference resolver can follow it, the storage is unbounded. The idea is not "a
+list with pointers." The idea is infinite memory for a sequence. That is not
+useless; that is a fundamentally different capability that the label never
+communicated.
+
+### Header Files
+
+Ask a newer developer what header files (.h) are for, and the answer is usually
+"where you put your declarations." That is the convention, but it is not the
+idea.
+
+The idea is that early compilers could not hold an entire program in memory
+during compilation. Source files (.c) had to be compiled independently into
 object files (.o); machine code with unresolved references to symbols defined
-elsewhere. Header files declared those symbols (function signatures, type
-definitions, external variables) so the compiler could verify usage without
-seeing the implementation. A linker then resolved the references across object
-files into a final binary. Modern languages like Go and Rust prove this
-mechanism is no longer necessary; their compilers resolve dependencies across
-source files directly. The hardware outgrew the constraint that created the
-pattern.
+elsewhere. The compiler needed a way to verify that those references were valid
+without seeing the full implementation. Header files solved that problem by
+declaring symbols (function signatures, type definitions, external variables) so
+each source file could be checked in isolation. A linker then resolved the
+references across object files into a final binary.
 
-Async/await is cooperative multitasking. A single CPU core executes one
-instruction stream at a time, but when a task yields (waiting on I/O, a timer,
-a network response), the core switches to another task rather than sitting idle.
-Multi-threading is true parallelism; multiple cores each executing their own
-instruction stream simultaneously. The online debate about "concurrency vs
-parallelism" only exists because people reason about the abstraction (the
-language keyword) instead of the mechanism (what the hardware is doing). At the
-CPU level, there is nothing ambiguous.
+This same idea extends to type annotations. Explicit return types in C were not
+added for the programmer's benefit; the compiler needed them to generate correct
+machine code. It had to know which registers to read and how many bytes to
+expect. On the PDP-11 where C was born, an int came back in register R0, a long
+in R0:R1, and floats were handled differently again. K&R C let you omit the
+return type, but the compiler did not skip the information; it defaulted to int.
+Get it wrong and you read garbage. The "for the human" justification came later,
+after people forgot the original constraint.
+
+The idea, then, is not "declarations go in .h files" or "always annotate your
+return types." The idea is that compilers needed explicit information to
+generate correct code under hardware constraints. Modern languages like Go and
+Rust prove this; their compilers resolve dependencies across source files
+directly, infer return types, and need no headers at all. The hardware outgrew
+the constraint that created the pattern. Once you see that, these conventions
+stop being rules and start being historical artifacts of specific limitations.
+
+### Async/Await
+
+The online debate about "concurrency vs parallelism" never seems to reach a
+consensus. People argue endlessly about whether async/await is "really"
+concurrent, whether it uses threads, whether it counts as parallelism. Nobody
+can agree, and the reason is that nobody is talking about the hardware.
+
+There are two ideas. Multitasking: a single CPU core executes one instruction
+stream at a time, but when a task yields (waiting on I/O, a timer, a network
+response), the core switches to another task rather than sitting idle. The core
+is never doing two things at once; it is just not wasting time waiting.
+Multi-threading: multiple instruction streams executing simultaneously. Two
+things actually happening at the same time. Nothing in this idea specifies
+where those streams execute; they could be on cores in the same chip, or on
+machines on opposite sides of the planet.
+
+Once you have those ideas, the semantic arguments dissolve. Take JavaScript,
+commonly described as "single threaded." If that were the whole story, how does
+a browser make network requests while your code continues to run? How does
+Node.js utilize multiple cores with worker threads? How does a fetch call
+resolve while the event loop processes other callbacks? The label "single
+threaded" only describes the runtime's main execution model: one instruction
+stream, yielding between tasks so nothing blocks. That is multitasking. But
+JavaScript does not live in isolation. The browser delegates network I/O to the
+operating system. Node.js spawns actual threads for heavy computation. A request
+to a remote server means two instruction streams executing simultaneously on
+different hardware. That is multi-threading by the definition above.
+
+The label "single threaded" is not wrong, but it is incomplete to the point of
+being misleading. It describes one layer of the system and ignores everything
+else. The ideas underneath have no such ambiguity.
+
+### Git
+
+Many developers treat GitHub like cloud storage. They push to save their work,
+pull to get other people's work, and when a merge conflict appears, it feels
+like something has gone wrong. It has not. They just never learned what Git
+actually is.
+
+Git is version control. It tracks changes as a graph; specifically, a directed
+acyclic graph, meaning it only moves forward and never loops back on itself.
+Each commit is a snapshot of the entire project at a point in time. Each branch
+is just a pointer, a name that refers to a specific commit. When you make a new
+commit, the pointer moves forward. That is all a branch is.
+
+GitHub is a remote host for that graph. It stores a copy of the same structure
+that exists on your machine. These are two separate ideas, and conflating them
+is where the confusion starts.
+
+A merge is just reconciling two divergent paths in the graph. If two people
+edited different files, Git can stitch the paths back together automatically. If
+they edited the same lines, it cannot; it needs a human decision about which
+version to keep. That is not a bug, it is the expected and correct behavior of
+the system.
+
+Here is where people misattribute the problem. Merge conflicts are not a Git
+problem; they are a team coordination problem. Two people editing the same lines
+means two people were working on the same thing without talking to each other.
+Resolving that almost always requires pair programming, not a better branching
+strategy. Git was designed for version control, not for sharing code in real
+time. That is what live development environments and collaborative editors
+solve. Blaming Git for merge conflicts is like blaming a filing cabinet for
+people putting documents in the wrong drawer.
+
+But if you only learned "push and pull," you cannot see that distinction. This
+is exactly why companies end up with long internal documents prescribing
+single-branch workflows, mandatory rebase policies, and step-by-step
+instructions for resolving conflicts. It is also why the industry cycles through
+branching strategies; Git Flow, GitHub Flow, trunk-based development, and
+whatever comes next. Each one is an attempt to impose order on a tool that teams
+do not understand, to solve a problem that the tool was never designed to solve.
+If you know what a branch is and what a merge does, the "right" strategy is just
+the logical consequence of your team's deployment needs. You do not need a named
+workflow; you need to understand the graph, and coordinate with your team.
+
+The idea underneath is simple: a forward-moving graph of snapshots, with
+branches as movable pointers. Once you see that, version control stops being a
+source of anxiety and starts being a tool you can reason about.
 
 
 ## V. Conclusion
 
-No amount of tooling, configuration, or best practices replaces understanding
-what is actually happening. Solutions are environmental; they change with
-context, with constraints, with hardware. Ideas do not. They move between
-domains, between languages, between problems. Learn the ideas, and the
-implementation follows. Skip the ideas, and no amount of rules will save you.
+Every example above follows the same pattern. A concept gets a label. The label
+gets taught instead of the ideas behind it. People build rules around the label.
+The rules accumulate. And when the context changes, there is nothing underneath
+to adapt from.
+
+No amount of tooling, configuration, or best practices replaces actually
+understanding what is happening. Solutions are environmental; they change with
+context, with constraints, with hardware. Ideas do not. A pointer works the same
+way regardless of the language. Multitasking works the same way regardless of
+the runtime. A graph is a graph whether you are using Git or designing a
+network.
+
+The ideas are the pennies. Everything else is dollars.
 
 Take care of the ideas, and the implementations take care of themselves.
