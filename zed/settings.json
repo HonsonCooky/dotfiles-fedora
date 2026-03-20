@@ -1,32 +1,24 @@
 {
-  // Splitting Point - Roblox Luau LSP (work-specific)
+  "agent": {
+    "dock": "right",
+  },
   "agent_servers": {
     "claude-acp": {
-      "favorite_config_option_values": {
-        "model": [
-          "opus"
-        ]
+      "type": "registry",
+      "default_config_options": {
+        "mode": "bypassPermissions",
       },
-      "type": "registry"
-    }
+      "favorite_config_option_values": {
+        "model": ["opus"],
+      },
+    },
   },
   "lsp": {
     "luau-lsp": {
       "settings": {
         "luau-lsp": {
-          "platform": {
-            "type": "roblox",
-          },
-          "sourcemap": {
-            "enabled": false,
-          },
-          "types": {
-            "roblox": true,
-            "robloxSecurity": "roblox_script",
-          },
           "roblox": {
             "enabled": true,
-            "security_level": "roblox_script",
           },
           "completion": {
             "imports": {
