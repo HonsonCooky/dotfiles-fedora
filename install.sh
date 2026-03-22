@@ -111,6 +111,51 @@ grep -v '^#' "$DOTFILES_DIR/packages/flatpaks.txt" | grep -v '^$' | while read -
 done
 
 # --------------------------------------------------------------------------- #
+# Keymapp (ZSA Voyager keyboard configurator)
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[voyager] Installing Keymapp..."
+KEYMAPP_DIR="$HOME/.local/bin"
+KEYMAPP_URL="https://oryx.nyc3.cdn.digitaloceanspaces.com/keymapp/keymapp-latest.tar.gz"
+mkdir -p "$KEYMAPP_DIR"
+
+if [ -x "$KEYMAPP_DIR/keymapp" ]; then
+    echo "  Keymapp already installed at $KEYMAPP_DIR/keymapp"
+    echo "  Re-downloading to update..."
+fi
+
+echo "  Downloading Keymapp..."
+curl -fSL "$KEYMAPP_URL" -o /tmp/keymapp.tar.gz
+tar -xzf /tmp/keymapp.tar.gz -C "$KEYMAPP_DIR"
+chmod +x "$KEYMAPP_DIR/keymapp"
+rm -f /tmp/keymapp.tar.gz
+echo "  Installed keymapp to $KEYMAPP_DIR/keymapp"
+
+KEYMAPP_ICON_DIR="$HOME/.local/share/icons"
+mkdir -p "$KEYMAPP_ICON_DIR"
+if [ -f "$KEYMAPP_DIR/icon.png" ]; then
+    mv "$KEYMAPP_DIR/icon.png" "$KEYMAPP_ICON_DIR/keymapp.png"
+    echo "  Icon installed to $KEYMAPP_ICON_DIR/keymapp.png"
+fi
+
+echo "  Installing udev rules for ZSA keyboards..."
+sudo cp "$DOTFILES_DIR/voyager/50-zsa.rules" /etc/udev/rules.d/50-zsa.rules
+sudo udevadm control --reload-rules
+echo "  udev rules installed and reloaded."
+
+if ! groups "$USER" | grep -q plugdev; then
+    echo "  Adding $USER to plugdev group..."
+    sudo groupadd -f plugdev
+    sudo usermod -aG plugdev "$USER"
+    echo "  NOTE: Log out and back in for group membership to take effect."
+fi
+
+echo "  Installing desktop entry..."
+mkdir -p "$HOME/.local/share/applications"
+cp "$DOTFILES_DIR/voyager/keymapp.desktop" "$HOME/.local/share/applications/keymapp.desktop"
+echo "  Desktop entry installed."
+
+# --------------------------------------------------------------------------- #
 # Remove unnecessary packages (VM guest tools, unused input methods)
 # --------------------------------------------------------------------------- #
 echo ""

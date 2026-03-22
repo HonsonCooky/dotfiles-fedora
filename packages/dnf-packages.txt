@@ -14,3 +14,8 @@ git
 gh
 gnome-characters
 gnome-tweaks
+
+# Keymapp dependencies (ZSA keyboard tool)
+gtk3
+webkit2gtk4.1
+libusb1

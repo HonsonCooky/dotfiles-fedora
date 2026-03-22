@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Keymapp
+Comment=Configure and flash ZSA keyboards
+Exec=keymapp
+Icon=keymapp
+Terminal=false
+Type=Application
+Categories=Utility;HardwareSettings;
+Keywords=keyboard;zsa;voyager;moonlander;firmware;
