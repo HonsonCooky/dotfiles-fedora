@@ -1,0 +1,30 @@
+# VM guest tools (not needed on bare metal)
+open-vm-tools-desktop
+virtualbox-guest-additions
+qemu-guest-agent
+spice-vdagent
+spice-webdavd
+hyperv-daemons
+
+# Input methods (CJK)
+ibus-anthy
+ibus-chewing
+ibus-hangul
+ibus-libpinyin
+ibus-m17n
+ibus-typing-booster
+
+# Default apps (using Zen Browser / web instead)
+showtime
+decibels
+papers
+papers-nautilus
+gnome-maps
+gnome-weather
+gnome-calendar
+gnome-clocks
+libreoffice-emailmerge
+libreoffice-gtk3
+libreoffice-gtk4
+unoconv
+gnome-text-editor

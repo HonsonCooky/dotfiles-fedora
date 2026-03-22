@@ -1,21 +1,16 @@
 # C/C++
 gcc
 make
-cmake
 
 # Go
 golang
 
-# Node (for tooling)
-nodejs
-npm
-
-# Infra
+# Containers
 podman
 podman-compose
-terraform
 
 # System
 git
+gh
 gnome-characters
 gnome-tweaks

@@ -82,7 +82,24 @@ echo ""
 read -rp "Install DNF packages? [y/N] " yn
 if [[ "$yn" =~ ^[Yy]$ ]]; then
     echo "[packages] Installing DNF packages..."
-    grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$' | xargs sudo dnf install -y
+    while read -r pkg; do
+        if rpm -q "$pkg" &>/dev/null; then
+            echo "  ✓ $pkg (already installed)"
+        else
+            echo "  Installing $pkg..."
+            sudo dnf install -y "$pkg" || echo "  ✗ $pkg (not found in repos)"
+        fi
+    done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$')
+fi
+
+# --------------------------------------------------------------------------- #
+# Go tools
+# --------------------------------------------------------------------------- #
+echo ""
+read -rp "Install Go tools? [y/N] " yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
+    echo "[go] Installing Go tools..."
+    go install github.com/cortesi/devd/cmd/devd@latest
 fi
 
 # --------------------------------------------------------------------------- #
@@ -95,6 +112,23 @@ if [[ "$yn" =~ ^[Yy]$ ]]; then
     grep -v '^#' "$DOTFILES_DIR/packages/flatpaks.txt" | grep -v '^$' | while read -r app; do
         flatpak install -y flathub "$app" 2>/dev/null || echo "  $app already installed or not found"
     done
+fi
+
+# --------------------------------------------------------------------------- #
+# Remove unnecessary packages (VM guest tools, unused input methods)
+# --------------------------------------------------------------------------- #
+echo ""
+read -rp "Remove unnecessary packages? (re-run after Fedora upgrades) [y/N] " yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
+    echo "[cleanup] Removing unnecessary packages..."
+    while read -r pkg; do
+        if rpm -q "$pkg" &>/dev/null; then
+            echo "  Removing $pkg..."
+            sudo dnf remove -y "$pkg"
+        else
+            echo "  ✓ $pkg (not installed)"
+        fi
+    done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-remove.txt" | grep -v '^$')
 fi
 
 echo ""
