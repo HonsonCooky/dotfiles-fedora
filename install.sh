@@ -89,17 +89,6 @@ while read -r pkg; do
     fi
 done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$')
 
-# --------------------------------------------------------------------------- #
-# Go tools
-# --------------------------------------------------------------------------- #
-echo ""
-echo "[go] Installing Go tools..."
-if command -v go &>/dev/null; then
-    go install github.com/baalimago/wd-41@latest
-    echo "  ✓ wd-41 installed"
-else
-    echo "  WARNING: go not found, skipping Go tools."
-fi
 
 # --------------------------------------------------------------------------- #
 # Flatpak apps
