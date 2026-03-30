@@ -13,22 +13,6 @@
       },
     },
   },
-  "lsp": {
-    "luau-lsp": {
-      "settings": {
-        "luau-lsp": {
-          "roblox": {
-            "enabled": true,
-          },
-          "completion": {
-            "imports": {
-              "enabled": true,
-            },
-          },
-        },
-      },
-    },
-  },
   "preferred_line_length": 120,
   "theme": {
     "mode": "system",
