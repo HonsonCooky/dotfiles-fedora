@@ -5,8 +5,8 @@ installer, and get back to work. See [Principles](PRINCIPLES.md) for the
 philosophy behind this repo.
 
 ```bash
-git clone git@github.com:HonsonCooky/dotfiles-fedora.git ~/Source/dotfiles
-cd ~/Source/dotfiles
+git clone git@github.com:HonsonCooky/dotfiles-fedora.git ~/Projects/honsoncooky/dotfiles-fedora
+cd ~/Projects/honsoncooky/dotfiles-fedora
 ./install.sh
 ```
 
@@ -25,8 +25,8 @@ cd ~/Source/dotfiles
 
 1. **Symlinks** bash, git, and zed configs into the expected locations
    (backs up any existing files to `*.bak`).
-2. **Loads dconf settings** -- keyboard tweaks (Caps/Esc swap), dark mode,
-   hidden top panel, and more.
+2. **Loads dconf settings** -- keyboard tweaks (Caps/Esc swap), hidden top
+   panel, and more.
 3. **Sets the Ptyxis terminal palette** to Ayu on the default profile.
 4. **Lists GNOME extensions** to install manually (Just Perfection,
    Blur My Shell, Alphabetical App Grid).
