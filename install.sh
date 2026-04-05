@@ -28,6 +28,7 @@ link_file() {
 # --------------------------------------------------------------------------- #
 echo ""
 echo "[bash]"
+link_file "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
 link_file "$DOTFILES_DIR/bash/.inputrc" "$HOME/.inputrc"
 link_file "$DOTFILES_DIR/bash/bashrc.d" "$HOME/.bashrc.d"
 
