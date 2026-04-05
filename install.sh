@@ -48,6 +48,15 @@ mkdir -p "$HOME/.var/app/dev.zed.Zed/config/zed"
 link_file "$DOTFILES_DIR/zed/settings.json" "$HOME/.var/app/dev.zed.Zed/config/zed/settings.json"
 
 # --------------------------------------------------------------------------- #
+# Claude Code (global)
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[claude]"
+mkdir -p "$HOME/.claude"
+link_file "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+link_file "$DOTFILES_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+
+# --------------------------------------------------------------------------- #
 # GNOME dconf settings
 # --------------------------------------------------------------------------- #
 echo ""
