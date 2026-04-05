@@ -11,6 +11,11 @@
       },
     },
   },
+  "terminal": {
+    "shell": {
+      "program": "/usr/bin/bash",
+    },
+  },
   "preferred_line_length": 120,
   "theme": {
     "mode": "system",
