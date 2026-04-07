@@ -2,20 +2,6 @@
   "agent": {
     "dock": "right",
   },
-  "agent_servers": {
-    "claude-acp": {
-      "type": "registry",
-      "default_config_options": {
-        "model": "default",
-        "mode": "bypassPermissions",
-      },
-    },
-  },
-  "terminal": {
-    "shell": {
-      "program": "/usr/bin/bash",
-    },
-  },
   "preferred_line_length": 120,
   "theme": {
     "mode": "system",

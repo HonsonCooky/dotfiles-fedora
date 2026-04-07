@@ -44,8 +44,14 @@ link_file "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 # --------------------------------------------------------------------------- #
 echo ""
 echo "[zed]"
-mkdir -p "$HOME/.var/app/dev.zed.Zed/config/zed"
-link_file "$DOTFILES_DIR/zed/settings.json" "$HOME/.var/app/dev.zed.Zed/config/zed/settings.json"
+if ! command -v zed &>/dev/null; then
+    echo "  Installing Zed (native)..."
+    curl -f https://zed.dev/install.sh | sh
+else
+    echo "  Zed already installed: $(zed --version 2>/dev/null || echo 'unknown version')"
+fi
+mkdir -p "$HOME/.config/zed"
+link_file "$DOTFILES_DIR/zed/settings.json" "$HOME/.config/zed/settings.json"
 
 # --------------------------------------------------------------------------- #
 # Claude Code (global)
