@@ -6,5 +6,8 @@ com.bitwarden.desktop
 com.github.tchx84.Flatseal
 com.mattjakeman.ExtensionManager
 
+# Creative
+com.github.flxzt.rnote
+
 # Social
 com.discordapp.Discord

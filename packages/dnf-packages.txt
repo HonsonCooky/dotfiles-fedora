@@ -5,6 +5,10 @@ make
 # Go
 golang
 
+# Node
+nodejs
+npm
+
 # Containers
 podman
 podman-compose
