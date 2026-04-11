@@ -1,6 +1,8 @@
 [user]
 	email = HonsonCooky@gmail.com
 	name = Harrison Cook
+[init]
+	defaultBranch = main
 [push]
 	autoSetupRemote = true
 [credential "https://github.com"]
