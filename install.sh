@@ -54,6 +54,22 @@ mkdir -p "$HOME/.config/zed"
 link_file "$DOTFILES_DIR/zed/settings.json" "$HOME/.config/zed/settings.json"
 
 # --------------------------------------------------------------------------- #
+# Rust (via rustup)
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[rust]"
+if command -v rustup &>/dev/null; then
+    echo "  Rust already installed: $(rustc --version)"
+    echo "  Updating toolchain..."
+    rustup update
+else
+    echo "  Installing Rust via rustup..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source "$HOME/.cargo/env"
+    echo "  Installed: $(rustc --version)"
+fi
+
+# --------------------------------------------------------------------------- #
 # Claude Code (global)
 # --------------------------------------------------------------------------- #
 echo ""

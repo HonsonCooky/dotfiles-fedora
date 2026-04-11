@@ -19,6 +19,10 @@ gh
 gnome-characters
 gnome-tweaks
 
+# Rust compile-time dependencies (ALSA audio, udev gamepad hotplug)
+alsa-lib-devel
+systemd-devel
+
 # Keymapp dependencies (ZSA keyboard tool)
 gtk3
 webkit2gtk4.1
