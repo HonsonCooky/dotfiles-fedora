@@ -24,15 +24,10 @@
   },
   "lsp": {
     "luau-lsp": {
-      "initialization_options": {
-        "types": {
-          "definitionFiles": [
-            "/home/harrison/.cache/luau-lsp/globalTypes.Roblox.d.luau",
-          ],
-          "documentationFiles": [
-            "/home/harrison/.cache/luau-lsp/apiDocs.json",
-          ],
-          "roblox": true,
+      "settings": {
+        "roblox": {
+          "enabled": true,
+          "security_level": "none",
         },
       },
     },
