@@ -132,6 +132,36 @@ grep -v '^#' "$DOTFILES_DIR/packages/flatpaks.txt" | grep -v '^$' | while read -
 done
 
 # --------------------------------------------------------------------------- #
+# Luau LSP (JohnnyMorganz/luau-lsp) + Roblox type definitions
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[luau-lsp]"
+LUAU_BIN_DIR="$HOME/.local/bin"
+LUAU_LSP_URL="https://github.com/JohnnyMorganz/luau-lsp/releases/latest/download/luau-lsp-linux-x86_64.zip"
+LUAU_CACHE_DIR="$HOME/.cache/luau-lsp"
+mkdir -p "$LUAU_BIN_DIR" "$LUAU_CACHE_DIR"
+
+echo "  Downloading luau-lsp..."
+curl -fSL "$LUAU_LSP_URL" -o /tmp/luau-lsp.zip
+rm -rf /tmp/luau-lsp && mkdir -p /tmp/luau-lsp
+unzip -o /tmp/luau-lsp.zip -d /tmp/luau-lsp >/dev/null
+mv /tmp/luau-lsp/luau-lsp "$LUAU_BIN_DIR/luau-lsp"
+chmod +x "$LUAU_BIN_DIR/luau-lsp"
+rm -rf /tmp/luau-lsp.zip /tmp/luau-lsp
+echo "  Installed luau-lsp to $LUAU_BIN_DIR/luau-lsp"
+
+echo "  Fetching Roblox type definitions..."
+# globalTypes.None.d.luau is the security context for standard game scripts.
+# Other flavors in that directory are for plugins and elevated contexts.
+curl -fSL "https://raw.githubusercontent.com/JohnnyMorganz/luau-lsp/main/scripts/globalTypes.None.d.luau" \
+    -o "$LUAU_CACHE_DIR/globalTypes.Roblox.d.luau"
+curl -fSL "https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/roblox/api-docs/en-us.json" \
+    -o "$LUAU_CACHE_DIR/apiDocs.json" || echo "  WARN: apiDocs.json fetch failed (non-fatal)"
+echo "  Definitions cached in $LUAU_CACHE_DIR"
+
+link_file "$DOTFILES_DIR/luau-lsp/luau-check" "$LUAU_BIN_DIR/luau-check"
+
+# --------------------------------------------------------------------------- #
 # Keymapp (ZSA Voyager keyboard configurator)
 # --------------------------------------------------------------------------- #
 echo ""

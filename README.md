@@ -16,7 +16,8 @@ cd ~/Projects/honsoncooky/dotfiles-fedora
 | ------------ | --------------------------------------------------------------- |
 | `bash/`      | bashrc.d snippets (custom PS1 with git branch, exit-code color) |
 | `git/`       | Global `.gitconfig` (user, auto push remote setup)              |
-| `zed/`       | Zed editor settings (Ayu theme, Luau/Roblox LSP)               |
+| `zed/`       | Zed editor settings (Ayu theme, Luau/Roblox LSP)                |
+| `luau-lsp/`  | `luau-check` wrapper for strict-mode Luau analysis              |
 | `gnome/`     | dconf dump, GNOME extension list, Ptyxis terminal config        |
 | `packages/`  | DNF packages and Flatpak app lists                              |
 | `install.sh` | Ties it all together (symlinks, dconf load, optional installs)  |

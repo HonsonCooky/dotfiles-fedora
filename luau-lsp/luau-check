@@ -1,0 +1,25 @@
+#!/bin/bash
+# luau-check - Run luau-lsp analyze with Roblox type definitions loaded.
+# Usage: luau-check <path> [<path>...]
+# The project's .luaurc is auto-loaded by luau-lsp.
+
+set -e
+
+CACHE_DIR="$HOME/.cache/luau-lsp"
+DEFINITIONS="$CACHE_DIR/globalTypes.Roblox.d.luau"
+
+if ! command -v luau-lsp &>/dev/null; then
+    echo "error: luau-lsp is not on PATH. Re-run the dotfiles installer." >&2
+    exit 1
+fi
+
+if [ ! -f "$DEFINITIONS" ]; then
+    echo "error: Roblox type definitions not found at $DEFINITIONS" >&2
+    echo "       Re-run the dotfiles installer to fetch them." >&2
+    exit 1
+fi
+
+exec luau-lsp analyze \
+    --platform=roblox \
+    --definitions="$DEFINITIONS" \
+    "$@"

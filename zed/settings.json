@@ -1,4 +1,15 @@
 {
+  "terminal": {
+    "flexible": true
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "default_config_options": {
+        "model": "default"
+      },
+      "type": "registry"
+    }
+  },
   "agent": {
     "dock": "right",
   },
@@ -7,5 +18,23 @@
     "mode": "system",
     "light": "Ayu Light",
     "dark": "Ayu Dark",
+  },
+  "auto_install_extensions": {
+    "luau": true,
+  },
+  "lsp": {
+    "luau-lsp": {
+      "initialization_options": {
+        "types": {
+          "definitionFiles": [
+            "/home/harrison/.cache/luau-lsp/globalTypes.Roblox.d.luau",
+          ],
+          "documentationFiles": [
+            "/home/harrison/.cache/luau-lsp/apiDocs.json",
+          ],
+          "roblox": true,
+        },
+      },
+    },
   },
 }
