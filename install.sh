@@ -107,15 +107,6 @@ else
 fi
 
 # --------------------------------------------------------------------------- #
-# GNOME extensions (informational)
-# --------------------------------------------------------------------------- #
-echo ""
-echo "[gnome] Extensions to install (use Extension Manager or extensions.gnome.org):"
-grep -v '^#' "$DOTFILES_DIR/gnome/extensions.txt" | grep -v '^$' | while read -r ext; do
-    echo "  - $ext"
-done
-
-# --------------------------------------------------------------------------- #
 # DNF packages
 # --------------------------------------------------------------------------- #
 echo ""
@@ -134,6 +125,41 @@ while read -r pkg; do
     fi
 done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$')
 
+# --------------------------------------------------------------------------- #
+# GNOME extensions
+#
+# Installed via gnome-extensions-cli (pipx). --system-site-packages lets the
+# venv see the distro's PyGObject, which gext needs to talk to gnome-shell.
+# Must run after DNF packages so pipx and python3-gobject are present.
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[gnome] Installing extensions..."
+if ! command -v pipx &>/dev/null; then
+    echo "  WARNING: pipx not installed, skipping extensions."
+else
+    if pipx list 2>/dev/null | grep -q 'gnome-extensions-cli'; then
+        echo "  Upgrading gnome-extensions-cli..."
+        pipx upgrade gnome-extensions-cli >/dev/null 2>&1 || true
+    else
+        echo "  Installing gnome-extensions-cli..."
+        pipx install --system-site-packages gnome-extensions-cli >/dev/null
+    fi
+
+    GEXT="$HOME/.local/bin/gext"
+    if [ -x "$GEXT" ]; then
+        while read -r uuid; do
+            if output=$("$GEXT" install "$uuid" 2>&1); then
+                "$GEXT" enable "$uuid" >/dev/null 2>&1 || true
+                echo "  [OK] $uuid"
+            else
+                echo "  [FAIL] $uuid"
+                echo "$output" | sed 's/^/    /'
+            fi
+        done < <(grep -v '^#' "$DOTFILES_DIR/gnome/extensions.txt" | grep -v '^$')
+    else
+        echo "  WARNING: $GEXT not found after pipx install."
+    fi
+fi
 
 # --------------------------------------------------------------------------- #
 # Flatpak apps
@@ -211,13 +237,6 @@ echo "  Installing udev rules for ZSA keyboards..."
 sudo cp "$DOTFILES_DIR/voyager/50-zsa.rules" /etc/udev/rules.d/50-zsa.rules
 sudo udevadm control --reload-rules
 echo "  udev rules installed and reloaded."
-
-if ! groups "$USER" | grep -q plugdev; then
-    echo "  Adding $USER to plugdev group..."
-    sudo groupadd -f plugdev
-    sudo usermod -aG plugdev "$USER"
-    echo "  NOTE: Log out and back in for group membership to take effect."
-fi
 
 echo "  Installing desktop entry..."
 mkdir -p "$HOME/.local/share/applications"

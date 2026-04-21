@@ -19,6 +19,12 @@ gnome-characters
 gnome-tweaks
 unzip
 
+# gnome-extensions-cli (installs GNOME extensions from extensions.gnome.org).
+# python3-gobject is required; pipx installs the CLI with --system-site-packages
+# so the venv can see PyGObject from the system.
+pipx
+python3-gobject
+
 # Rust compile-time dependencies (ALSA audio, udev gamepad hotplug)
 alsa-lib-devel
 systemd-devel
