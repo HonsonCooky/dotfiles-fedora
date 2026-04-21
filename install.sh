@@ -108,6 +108,18 @@ grep -v '^#' "$DOTFILES_DIR/gnome/extensions.txt" | grep -v '^$' | while read -r
 done
 
 # --------------------------------------------------------------------------- #
+# Remove Firefox (replaced by Zen Browser)
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[packages] Removing Firefox..."
+if rpm -q firefox &>/dev/null; then
+    sudo dnf remove -y firefox
+    echo "  Firefox removed."
+else
+    echo "  Firefox not installed, skipping."
+fi
+
+# --------------------------------------------------------------------------- #
 # DNF packages
 # --------------------------------------------------------------------------- #
 echo ""
