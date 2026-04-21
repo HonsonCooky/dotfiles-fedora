@@ -5,9 +5,8 @@ make
 # Go
 golang
 
-# Node
+# Node (nodejs pulls in nodejs-npm via Requires, so npm is not listed separately)
 nodejs
-npm
 
 # Containers
 podman

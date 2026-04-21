@@ -21,4 +21,6 @@ if [ -d ~/.bashrc.d ]; then
 fi
 
 unset rc
-. "$HOME/.cargo/env"
+
+# Cargo env is only present once rustup has run.
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

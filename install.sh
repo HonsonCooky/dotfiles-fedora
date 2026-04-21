@@ -7,6 +7,14 @@ echo "=== Dotfiles Installer ==="
 echo "Source: $DOTFILES_DIR"
 echo ""
 
+# Prime sudo credentials upfront and keep them alive while the installer runs.
+# Long downloads (luau-lsp, keymapp) can otherwise exceed the 5-minute sudo cache
+# and leave later `sudo` calls to fail non-interactively.
+sudo -v
+(while true; do sudo -n true; sleep 60; kill -0 "$$" 2>/dev/null || exit; done) &
+SUDO_KEEPALIVE_PID=$!
+trap 'kill $SUDO_KEEPALIVE_PID 2>/dev/null' EXIT
+
 # --------------------------------------------------------------------------- #
 # Helper: create a symlink, backing up any existing file
 # --------------------------------------------------------------------------- #
@@ -108,28 +116,21 @@ grep -v '^#' "$DOTFILES_DIR/gnome/extensions.txt" | grep -v '^$' | while read -r
 done
 
 # --------------------------------------------------------------------------- #
-# Remove Firefox (replaced by Zen Browser)
-# --------------------------------------------------------------------------- #
-echo ""
-echo "[packages] Removing Firefox..."
-if rpm -q firefox &>/dev/null; then
-    sudo dnf remove -y firefox
-    echo "  Firefox removed."
-else
-    echo "  Firefox not installed, skipping."
-fi
-
-# --------------------------------------------------------------------------- #
 # DNF packages
 # --------------------------------------------------------------------------- #
 echo ""
 echo "[packages] Installing DNF packages..."
 while read -r pkg; do
     if rpm -q "$pkg" &>/dev/null; then
-        echo "  ✓ $pkg (already installed)"
+        echo "  [OK] $pkg (already installed)"
     else
         echo "  Installing $pkg..."
-        sudo dnf install -y "$pkg" || echo "  ✗ $pkg (not found in repos)"
+        if output=$(sudo dnf install -y "$pkg" 2>&1); then
+            echo "  [OK] $pkg (installed)"
+        else
+            echo "  [FAIL] $pkg"
+            echo "$output" | sed 's/^/    /'
+        fi
     fi
 done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$')
 
@@ -140,7 +141,12 @@ done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-packages.txt" | grep -v '^$')
 echo ""
 echo "[packages] Installing Flatpak apps..."
 grep -v '^#' "$DOTFILES_DIR/packages/flatpaks.txt" | grep -v '^$' | while read -r app; do
-    flatpak install -y flathub "$app" 2>/dev/null || echo "  $app already installed or not found"
+    if output=$(flatpak install -y flathub "$app" 2>&1); then
+        echo "  [OK] $app"
+    else
+        echo "  [FAIL] $app"
+        echo "$output" | sed 's/^/    /'
+    fi
 done
 
 # --------------------------------------------------------------------------- #
