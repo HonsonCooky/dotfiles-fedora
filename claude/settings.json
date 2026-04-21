@@ -1,3 +1,4 @@
 {
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true
 }
