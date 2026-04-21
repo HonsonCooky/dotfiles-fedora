@@ -85,9 +85,9 @@ App focus via dash favorites (`Super+N` also cycles windows of that app):
 
 | Shortcut  | Action      |
 | --------- | ----------- |
-| `Super+J` | Discord     |
+| `Super+J` | Zed         |
 | `Super+K` | Zen Browser |
-| `Super+L` | Zed         |
+| `Super+L` | Discord     |
 | `Super+;` | Ptyxis      |
 
 Workspace switching (4 static workspaces):
