@@ -206,20 +206,6 @@ mkdir -p "$HOME/.local/share/applications"
 cp "$DOTFILES_DIR/voyager/keymapp.desktop" "$HOME/.local/share/applications/keymapp.desktop"
 echo "  Desktop entry installed."
 
-# --------------------------------------------------------------------------- #
-# Remove unnecessary packages (VM guest tools, unused input methods)
-# --------------------------------------------------------------------------- #
-echo ""
-echo "[cleanup] Removing unnecessary packages..."
-while read -r pkg; do
-    if rpm -q "$pkg" &>/dev/null; then
-        echo "  Removing $pkg..."
-        sudo dnf remove -y "$pkg"
-    else
-        echo "  ✓ $pkg (not installed)"
-    fi
-done < <(grep -v '^#' "$DOTFILES_DIR/packages/dnf-remove.txt" | grep -v '^$')
-
 echo ""
 echo "=== Done! ==="
 echo "NOTE: You may need to log out and back in for all changes to take effect."
