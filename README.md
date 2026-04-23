@@ -73,11 +73,13 @@ scripted cleanly. Everything from step five onward is automated by `./install.sh
 3. **Installs or updates Rust** via rustup.
 4. **Loads dconf settings** (keyboard remaps, hidden top panel, workspace shortcuts, app launchers).
 5. **Sets the Ptyxis palette** to Ayu on the default profile.
-6. **Installs DNF packages** listed in `packages/dnf-packages.txt`.
-7. **Installs Flatpak apps** listed in `packages/flatpaks.txt`.
-8. **Installs luau-lsp** plus Roblox type definitions and the `luau-check` wrapper.
-9. **Installs Keymapp** (ZSA Voyager) with udev rules and a desktop entry.
-10. **Prints the GNOME extension list** for manual install via Extension Manager.
+6. **Syncs GDM monitor layout** by copying `~/.config/monitors.xml` into GDM's home so the login screen uses the same
+   primary display. Re-run `install.sh` after changing display arrangement to push the update.
+7. **Installs DNF packages** listed in `packages/dnf-packages.txt`.
+8. **Installs Flatpak apps** listed in `packages/flatpaks.txt`.
+9. **Installs luau-lsp** plus Roblox type definitions and the `luau-check` wrapper.
+10. **Installs Keymapp** (ZSA Voyager) with udev rules and a desktop entry.
+11. **Prints the GNOME extension list** for manual install via Extension Manager.
 
 ## Keyboard shortcuts
 

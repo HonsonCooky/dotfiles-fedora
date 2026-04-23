@@ -107,6 +107,27 @@ else
 fi
 
 # --------------------------------------------------------------------------- #
+# GDM login-screen monitor layout
+#
+# GDM runs as its own user and keeps a separate monitors.xml. Copying the
+# user's session layout makes the login screen use the same primary display
+# and arrangement. Re-run install.sh after any display change to re-sync.
+# Plain copy, not symlink: GNOME rewrites monitors.xml via atomic rename,
+# which would replace a symlink with a real file on the first change.
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[gdm] Syncing monitor layout..."
+USER_MONITORS="$HOME/.config/monitors.xml"
+GDM_MONITORS="/var/lib/gdm/.config/monitors.xml"
+if [ -f "$USER_MONITORS" ]; then
+    sudo install -d -o gdm -g gdm -m 700 "$(dirname "$GDM_MONITORS")"
+    sudo install -o gdm -g gdm -m 644 "$USER_MONITORS" "$GDM_MONITORS"
+    echo "  Copied $USER_MONITORS -> $GDM_MONITORS"
+else
+    echo "  No $USER_MONITORS yet -- configure displays in Settings, then re-run."
+fi
+
+# --------------------------------------------------------------------------- #
 # DNF packages
 # --------------------------------------------------------------------------- #
 echo ""
