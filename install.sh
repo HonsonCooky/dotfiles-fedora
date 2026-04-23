@@ -107,6 +107,39 @@ else
 fi
 
 # --------------------------------------------------------------------------- #
+# GNOME profile picture
+#
+# AccountsService reads the user icon from /var/lib/AccountsService/icons/<user>
+# and the Icon= key in /var/lib/AccountsService/users/<user>. Both paths are
+# root-owned, so this step needs sudo. GNOME picks the change up on next login.
+# --------------------------------------------------------------------------- #
+echo ""
+echo "[gnome] Installing profile picture..."
+PROFILE_SRC="$DOTFILES_DIR/gnome/profile.png"
+PROFILE_DEST="/var/lib/AccountsService/icons/$USER"
+PROFILE_USER_FILE="/var/lib/AccountsService/users/$USER"
+if [ -f "$PROFILE_SRC" ]; then
+    sudo install -o root -g root -m 644 "$PROFILE_SRC" "$PROFILE_DEST"
+    if sudo test -f "$PROFILE_USER_FILE"; then
+        if sudo grep -q '^Icon=' "$PROFILE_USER_FILE"; then
+            sudo sed -i "s|^Icon=.*|Icon=$PROFILE_DEST|" "$PROFILE_USER_FILE"
+        else
+            sudo sed -i "/^\[User\]/a Icon=$PROFILE_DEST" "$PROFILE_USER_FILE"
+        fi
+    else
+        sudo tee "$PROFILE_USER_FILE" >/dev/null <<EOF
+[User]
+Icon=$PROFILE_DEST
+SystemAccount=false
+EOF
+        sudo chmod 600 "$PROFILE_USER_FILE"
+    fi
+    echo "  Copied $PROFILE_SRC -> $PROFILE_DEST"
+else
+    echo "  No $PROFILE_SRC, skipping."
+fi
+
+# --------------------------------------------------------------------------- #
 # GDM login-screen monitor layout
 #
 # GDM runs as its own user and keeps a separate monitors.xml. Copying the
